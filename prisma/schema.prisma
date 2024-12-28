@@ -1,0 +1,32 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model BlogPost {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+}
+
+model MapMarker {
+  id        Int      @id @default(autoincrement())
+  latitude  Float
+  longitude Float
+  title     String
+  description String
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  lastLogin DateTime?
+  isAdmin   Boolean  @default(false)
+}
