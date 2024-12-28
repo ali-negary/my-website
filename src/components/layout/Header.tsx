@@ -1,32 +1,34 @@
 import Link from "next/link";
 
-export default function Header() {
+const Header = () => {
+  const links = [
+    { href: "/", label: "Home" },
+    { href: "/resume", label: "Resume" },
+    { href: "/blog", label: "Blog" },
+    { href: "/map", label: "Map" },
+  ];
+
   return (
-    <header className="bg-gray-800 text-white py-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">
-          <Link href="/">My Portfolio</Link>
-        </h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li>
-              <Link href="/blog" className="hover:underline">
-                Blog
+    <nav className="bg-gray-900 text-white py-4 shadow-md">
+      <div className="container mx-auto flex justify-between items-center px-4">
+        <div className="text-2xl font-bold">My Portfolio</div>
+        <div className="flex space-x-6">
+          {links.map((link, index) => {
+            console.log(`Rendering link: ${link.label}, href: ${link.href}`);
+            return (
+              <Link
+                key={index}
+                href={link.href}
+                className="hover:text-yellow-400"
+              >
+                {link.label}
               </Link>
-            </li>
-            <li>
-              <Link href="/map" className="hover:underline">
-                Map
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/login" className="hover:underline">
-                Login
-              </Link>
-            </li>
-          </ul>
-        </nav>
+            );
+          })}
+        </div>
       </div>
-    </header>
+    </nav>
   );
-}
+};
+
+export default Header;

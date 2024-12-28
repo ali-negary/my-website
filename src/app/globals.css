@@ -1,23 +1,33 @@
+/* Import external styles */
 @import 'leaflet/dist/leaflet.css';
 
+/* Tailwind CSS setup */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Light and dark mode variables */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-light: #ffffff;
+  --foreground-light: #171717;
+  --background-dark: #0a0a0a;
+  --foreground-dark: #ededed;
+
+  --background: var(--background-light);
+  --foreground: var(--foreground-light);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--background-dark);
+    --foreground: var(--foreground-dark);
   }
 }
 
+/* Apply global body styles */
 body {
+  @apply bg-gray-50 text-gray-900 antialiased;
   color: var(--foreground);
-  background: var(--background);
+  background-color: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
