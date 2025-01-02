@@ -1,34 +1,50 @@
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
-const Header = () => {
-  const links = [
-    { href: "/", label: "Home" },
-    { href: "/resume", label: "Resume" },
-    { href: "/blog", label: "Blog" },
-    { href: "/map", label: "Map" },
+export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navigationItems = [
+    { label: "Home", path: "/" },
+    { label: "About", path: "/#about" },
+    { label: "Experience", path: "/#experience" },
+    { label: "Projects", path: "/#projects" },
+    { label: "Blog", path: "/blog" },
+    { label: "Map", path: "/map" },
+    { label: "Contact", path: "/#contact" },
   ];
 
   return (
-    <nav className="bg-gray-900 text-white py-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center px-4">
-        <div className="text-2xl font-bold">My Portfolio</div>
-        <div className="flex space-x-6">
-          {links.map((link, index) => {
-            console.log(`Rendering link: ${link.label}, href: ${link.href}`);
-            return (
+    <header
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+      }`}
+    >
+      <nav className="container mx-auto px-6 py-4">
+        <ul className="flex space-x-8 justify-center">
+          {navigationItems.map((item) => (
+            <li key={item.label}>
               <Link
-                key={index}
-                href={link.href}
-                className="hover:text-yellow-400"
+                href={item.path}
+                className={`capitalize hover:text-blue-600 transition-colors ${
+                  isScrolled ? "text-gray-600" : "text-gray-800"
+                }`}
               >
-                {link.label}
+                {item.label}
               </Link>
-            );
-          })}
-        </div>
-      </div>
-    </nav>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </header>
   );
-};
-
-export default Header;
+}

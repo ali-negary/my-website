@@ -1,5 +1,5 @@
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 type Marker = {
@@ -9,6 +9,23 @@ type Marker = {
   title: string;
   description: string;
 };
+
+// Dynamically import react-leaflet components
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const MarkerComponent = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false }
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
+});
 
 export default function Map() {
   const [markers, setMarkers] = useState<Marker[]>([]);
@@ -29,12 +46,12 @@ export default function Map() {
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
         {markers.map((marker) => (
-          <Marker
+          <MarkerComponent
             key={marker.id}
             position={[marker.latitude, marker.longitude]}
           >
             <Popup>{marker.title}</Popup>
-          </Marker>
+          </MarkerComponent>
         ))}
       </MapContainer>
     </div>
