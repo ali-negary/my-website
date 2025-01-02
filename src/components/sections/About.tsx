@@ -1,13 +1,15 @@
-export default function About() {
+const About = () => {
   return (
-    <section id="about" className="py-20 bg-white">
-      <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-4">About Me</h2>
-        <p>
-          I'm a software developer with a strong focus on building performant,
-          scalable, and visually appealing web applications.
+    <section id="about" className="py-16 bg-white">
+      <div className="container mx-auto">
+        <h2 className="text-3xl font-semibold text-gray-800">About Me</h2>
+        <p className="mt-4 text-gray-600">
+          I’m a passionate developer who loves building web applications and
+          learning new technologies.
         </p>
       </div>
     </section>
   );
-}
+};
+
+export default About;

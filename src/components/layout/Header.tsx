@@ -1,32 +1,50 @@
 import Link from "next/link";
+import { useState, useEffect } from "react";
 
 export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const navigationItems = [
+    { label: "Home", path: "/" },
+    { label: "About", path: "/#about" },
+    { label: "Experience", path: "/#experience" },
+    { label: "Projects", path: "/#projects" },
+    { label: "Blog", path: "/blog" },
+    { label: "Map", path: "/map" },
+    { label: "Contact", path: "/#contact" },
+  ];
+
   return (
-    <header className="bg-gray-800 text-white py-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">
-          <Link href="/">My Portfolio</Link>
-        </h1>
-        <nav>
-          <ul className="flex space-x-4">
-            <li>
-              <Link href="/blog" className="hover:underline">
-                Blog
+    <header
+      className={`fixed w-full z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-md" : "bg-transparent"
+      }`}
+    >
+      <nav className="container mx-auto px-6 py-4">
+        <ul className="flex space-x-8 justify-center">
+          {navigationItems.map((item) => (
+            <li key={item.label}>
+              <Link
+                href={item.path}
+                className={`capitalize hover:text-blue-600 transition-colors ${
+                  isScrolled ? "text-gray-600" : "text-gray-800"
+                }`}
+              >
+                {item.label}
               </Link>
             </li>
-            <li>
-              <Link href="/map" className="hover:underline">
-                Map
-              </Link>
-            </li>
-            <li>
-              <Link href="/admin/login" className="hover:underline">
-                Login
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
+          ))}
+        </ul>
+      </nav>
     </header>
   );
 }
